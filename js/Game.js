@@ -41,8 +41,16 @@
         return this.phrases[random];
     }
 
-    handleInteraction() {
-        //TODO
+    handleInteraction(pressedKey) {
+        pressedKey.disabled = true;
+        if (this.activePhrase.checkLetter(pressedKey.textContent)) {
+            pressedKey.classList.add('chosen');
+            this.activePhrase.showMatchedLetter(pressedKey.textContent);
+            this.checkForWin();
+        } else {
+            pressedKey.classList.add('wrong');
+            this.removeLife();
+        }
     }
 
     removeLife() {
@@ -53,8 +61,8 @@
         //TODO
     }
 
-    checkForWin() {
-        //TODO
+    gameOver() {
+
     }
 
  }

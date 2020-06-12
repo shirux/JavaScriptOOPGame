@@ -11,7 +11,7 @@
       * @param {*} phrase 
       */
     constructor(text) {
-        this.phrase = text;
+        this.phrase = text.toLowerCase();
     }
 
     /**
@@ -40,11 +40,10 @@
      * @param {*} letter 
      */
     checkLetter(letter) {
-        let result = [];
-        [...this.phrase].forEach((char, index) => {
-            if (char === letter) result.push(index);
-        });
-        return result;
+        for (let i = 0; i < this.phrase.length; i ++) {
+            if (this.phrase.charAt(i) === letter) return true;
+        }
+        return false;
     }
 
     /**
@@ -52,6 +51,8 @@
      * @param {*} letter 
      */
     showMatchedLetter(letter){
+        let printing = `.${letter}`;
+        console.log(printing);
         const matches = document.querySelectorAll(`.${letter}`);
         matches.forEach(match => {
             match.classList.remove('hide');
