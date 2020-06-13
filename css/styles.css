@@ -138,11 +138,13 @@ button {
   border-radius: 5px;
   font-size: var(--font-size-medium);
   color: #FFFFFF;
+  border-radius: 50% !important;
 }
 
 .wrong {
   background: #f7a964;
   color: #FFFFFF;
+  border-radius: 50% !important;
 }
 
 .btn__reset {
