@@ -9,6 +9,9 @@ startButton.addEventListener('click', e => {
     game.startGame();
 });
 
+/**
+ * Event listener on parent node for every keyButton on click event
+ */
 const qwerty = document.querySelector('#qwerty');
 qwerty.addEventListener('click', e => {
     //console.log(e.target.type);
@@ -17,4 +20,22 @@ qwerty.addEventListener('click', e => {
             game.handleInteraction(e.target);
         }
     }
-})
+});
+
+
+/**
+ * Event listener on keyboard with keydown event
+ */
+const keyboard = document.querySelectorAll('button.key');
+document.body.addEventListener('keydown', e => {
+    if(game && game.activePhrase) {
+        for (let i = 0; i < keyboard.length; i++) {
+            if (keyboard[i].textContent === e.key) {
+                game.handleInteraction(keyboard[i]);
+                break;
+            }
+        }
+    }   
+});
+
+

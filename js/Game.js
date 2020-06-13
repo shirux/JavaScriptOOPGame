@@ -41,6 +41,11 @@
         return this.phrases[random];
     }
 
+    /**
+     * Handle the interaction with a pressed key. 
+     * Checks if exist on phrase and display correct or wrong choices
+     * @param {*} pressedKey Pressed Key
+     */
     handleInteraction(pressedKey) {
         pressedKey.disabled = true;
         if (this.activePhrase.checkLetter(pressedKey.textContent)) {
@@ -53,16 +58,76 @@
         }
     }
 
+    /**
+     * Replaces a live Heart with a lost Heart if player still have lifes.
+     * Otherwise it will end game.
+     */
     removeLife() {
-        //TODO
+        this.missed++;
+        if(this.missed === 5) {
+            this.gameOver(false)
+        } else {
+            let tries = document.querySelectorAll('.tries');
+            let img = tries[this.missed - 1].firstChild;
+            img.src = './images/lostHeart.png';
+        }
     }
 
+    /**
+     * Check if phrase is already shown. 
+     */
     checkForWin() {
-        //TODO
+        let hiddenOptions = document.querySelectorAll('li.hide');
+        if (hiddenOptions.length === 0) {
+            this.gameOver(true)
+        }
     }
 
-    gameOver() {
+    /**
+     * Displays a game over message when player has no more lifes or wins the game.
+     * Clear the boards
+     * @param {*} state 
+     */
+    gameOver(state) {
+        // Grabs overlay to put new message depending on state
+        const overlay = document.querySelector('#overlay');
+        let overlayH1 = overlay.querySelector('h1');
+        if (state) {
+            overlayH1.textContent = 'Congratulations. You won!'
+        } else {
+            overlayH1.textContent = 'You lost. Better luck next time!'
+        }
+        overlay.style.display = 'inherit';
+        this.clearBoard();
 
+
+    }
+
+    /**
+     * Clears the board after a won or lost game
+     */
+    clearBoard() {
+        // Removes phrase
+        this.activePhrase = null;
+
+        // Clears all hearts
+        const hearts = document.querySelectorAll('.tries');
+        hearts.forEach(heart => {
+            let img = heart.firstChild;
+            img.src = './images/liveHeart.png';
+        });
+
+        // Clears the phrase
+        const ulPhrase = document.querySelector('#phrase ul');
+        ulPhrase.innerHTML = '';
+
+        // Resets all buttons
+        const keyboard = document.querySelectorAll('#qwerty button');
+        keyboard.forEach(key => {
+            key.disabled = false;
+            key.classList.remove('wrong');
+            key.classList.remove('chosen');
+        });
     }
 
  }

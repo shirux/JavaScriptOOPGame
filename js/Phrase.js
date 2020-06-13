@@ -15,7 +15,7 @@
     }
 
     /**
-     * 
+     * Renders the hidden spaces for the phrase
      */
     addPhraseToDisplay() {
         const ulPhrase = document.querySelector('#phrase ul');
@@ -36,29 +36,28 @@
     }
 
     /**
-     * 
-     * @param {*} letter 
+     * Checks if a character exists on the phrase
+     * @param {char} char Character to check on phrase
+     * @returns {boolean} Indicator whether the character exist on phrase or not
      */
-    checkLetter(letter) {
+    checkLetter(char) {
         for (let i = 0; i < this.phrase.length; i ++) {
-            if (this.phrase.charAt(i) === letter) return true;
+            if (this.phrase.charAt(i) === char) return true;
         }
         return false;
     }
 
     /**
-     * 
-     * @param {*} letter 
+     * Displays all hidden options that contains that character
+     * @param {char} char Character to show
      */
-    showMatchedLetter(letter){
-        let printing = `.${letter}`;
+    showMatchedLetter(char){
+        let printing = `.${char}`;
         console.log(printing);
-        const matches = document.querySelectorAll(`.${letter}`);
+        const matches = document.querySelectorAll(`.${char}`);
         matches.forEach(match => {
             match.classList.remove('hide');
             match.classList.add('show');
-        })
+        });
     }
-
-
  }
