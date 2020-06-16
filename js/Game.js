@@ -12,11 +12,11 @@
     constructor() {
         this.missed = 0;
         this.phrases = [
-            'Honey I am busy',
-            'Do not worry be happy',
-            'I love javascript',
-            'That is one small step for man one giant leap for mankind',
-            'SpaceX has launched javascript to outer space'
+            new Phrase('Honey I am busy'),
+            new Phrase('Do not worry be happy'),
+            new Phrase('I love javascript'),
+            new Phrase('That is one small step for man one giant leap for mankind'),
+            new Phrase('SpaceX has launched javascript to outer space'), 
         ];
         this.activePhrase = null;
     }
@@ -26,9 +26,12 @@
      */
     startGame() {
         const overlay = document.querySelector('#overlay');
+        // Remove all previous game results classes
+        overlay.classList.remove('win');
+        overlay.classList.remove('lose');
         overlay.style.display = 'none';
 
-        this.activePhrase = new Phrase(this.getRandomPhrase());
+        this.activePhrase = this.getRandomPhrase();
         this.activePhrase.addPhraseToDisplay();
     }
 
@@ -51,7 +54,9 @@
         if (this.activePhrase.checkLetter(pressedKey.textContent)) {
             pressedKey.classList.add('chosen');
             this.activePhrase.showMatchedLetter(pressedKey.textContent);
-            this.checkForWin();
+            if (this.checkForWin()) {
+                this.gameOver(true)
+            }
         } else {
             pressedKey.classList.add('wrong');
             this.removeLife();
@@ -65,7 +70,7 @@
     removeLife() {
         this.missed++;
         if(this.missed === 5) {
-            this.gameOver(false)
+            this.gameOver(false);
         } else {
             let tries = document.querySelectorAll('.tries');
             let img = tries[this.missed - 1].firstChild;
@@ -79,8 +84,9 @@
     checkForWin() {
         let hiddenOptions = document.querySelectorAll('li.hide');
         if (hiddenOptions.length === 0) {
-            this.gameOver(true)
+            return true;
         }
+        return false;
     }
 
     /**
@@ -93,13 +99,14 @@
         const overlay = document.querySelector('#overlay');
         let overlayH1 = overlay.querySelector('h1');
         if (state) {
+            overlay.classList.add('win');
             overlayH1.textContent = 'Congratulations. You won!'
         } else {
+            overlay.classList.add('lose');
             overlayH1.textContent = 'You lost. Better luck next time!'
         }
         overlay.style.display = 'inherit';
         this.clearBoard();
-
 
     }
 
